@@ -22,39 +22,51 @@
  * IN THE SOFTWARE.
  */
 
-package com.tencent.bk.job.manage.model.web.request.globalsetting;
+package com.tencent.bk.job.manage.common.consts.globalsetting;
 
-import com.tencent.bk.job.common.validation.CheckEnum;
-import com.tencent.bk.job.manage.common.consts.globalsetting.RestrictModeEnum;
-import com.tencent.bk.job.manage.common.consts.globalsetting.StorageUnitEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.val;
 
-import javax.validation.constraints.Pattern;
-import java.util.List;
-
-/**
- * @Description
- * @Date 2020/12/8
- * @Version 1.0
- */
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
-@Data
-@ApiModel("文件上传参数")
-public class FileUploadSettingReq {
-    @ApiModelProperty("数量")
-    private Long amount;
-    @ApiModelProperty("单位:可选B/KB/MB/GB/TB/PB")
-    private StorageUnitEnum unit;
-    @ApiModelProperty("限制模式，0:禁止范围，1：允许范围")
-    @CheckEnum(enumClass = RestrictModeEnum.class, enumMethod = "isValid", message = "{validation.constraints.InvalidRestrictMode.message}")
-    private Integer restrictMode;
-    @ApiModelProperty("后缀列表")
-    private List<
-        @Pattern(regexp = "^\\.[A-Za-z]{1,24}$", message = "{validation.constraints.InvalidFileSuffix.message}") String> suffixList;
+public enum RestrictModeEnum {
+    /**
+     * 禁止范围
+     */
+    FORBID(0),
 
+    /**
+     * 允许范围
+     */
+    ALLOW(1);
+
+    @JsonValue
+    private int type;
+
+    @JsonCreator
+    public static RestrictModeEnum valueOf(int type) {
+        val values = RestrictModeEnum.values();
+        for (int i = 0; i < values.length; i++) {
+            if (values[i].type == type) {
+                return values[i];
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * 判断参数合法性
+     */
+    public static boolean isValid(Integer type) {
+        for (RestrictModeEnum restrictModeEnum : RestrictModeEnum.values()) {
+            if (restrictModeEnum.getType() == type) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

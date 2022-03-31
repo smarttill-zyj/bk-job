@@ -26,6 +26,7 @@ package com.tencent.bk.job.manage.api.inner.impl;
 
 import com.tencent.bk.job.common.model.InternalResponse;
 import com.tencent.bk.job.manage.api.inner.ServiceGlobalSettingsResource;
+import com.tencent.bk.job.manage.model.web.vo.globalsetting.FileUploadSettingVO;
 import com.tencent.bk.job.manage.service.GlobalSettingsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,10 @@ public class ServiceGlobalSettingsResourceImpl implements ServiceGlobalSettingsR
     @Override
     public InternalResponse<String> getDocCenterBaseUrl() {
         return InternalResponse.buildSuccessResp(globalSettingsService.getDocCenterBaseUrl());
+    }
+
+    @Override
+    public InternalResponse<FileUploadSettingVO> getFileUploadSettings(String username) {
+        return InternalResponse.buildSuccessResp(globalSettingsService.getFileUploadSettings(username));
     }
 }

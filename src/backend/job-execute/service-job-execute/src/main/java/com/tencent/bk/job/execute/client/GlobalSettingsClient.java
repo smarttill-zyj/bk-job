@@ -22,39 +22,14 @@
  * IN THE SOFTWARE.
  */
 
-package com.tencent.bk.job.manage.model.web.request.globalsetting;
+package com.tencent.bk.job.execute.client;
 
-import com.tencent.bk.job.common.validation.CheckEnum;
-import com.tencent.bk.job.manage.common.consts.globalsetting.RestrictModeEnum;
-import com.tencent.bk.job.manage.common.consts.globalsetting.StorageUnitEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.Pattern;
-import java.util.List;
+import com.tencent.bk.job.manage.api.inner.ServiceGlobalSettingsResource;
+import org.springframework.cloud.openfeign.FeignClient;
 
 /**
- * @Description
- * @Date 2020/12/8
- * @Version 1.0
+ * 作业管理-全局配置
  */
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-@ApiModel("文件上传参数")
-public class FileUploadSettingReq {
-    @ApiModelProperty("数量")
-    private Long amount;
-    @ApiModelProperty("单位:可选B/KB/MB/GB/TB/PB")
-    private StorageUnitEnum unit;
-    @ApiModelProperty("限制模式，0:禁止范围，1：允许范围")
-    @CheckEnum(enumClass = RestrictModeEnum.class, enumMethod = "isValid", message = "{validation.constraints.InvalidRestrictMode.message}")
-    private Integer restrictMode;
-    @ApiModelProperty("后缀列表")
-    private List<
-        @Pattern(regexp = "^\\.[A-Za-z]{1,24}$", message = "{validation.constraints.InvalidFileSuffix.message}") String> suffixList;
-
+@FeignClient(value = "job-manage", contextId = "globalSettings")
+public interface GlobalSettingsClient extends ServiceGlobalSettingsResource {
 }
