@@ -6,7 +6,7 @@ name: Backend CI
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [ master, 3.*, test-* ]
     paths:
       - 'src/backend/**'
   pull_request:

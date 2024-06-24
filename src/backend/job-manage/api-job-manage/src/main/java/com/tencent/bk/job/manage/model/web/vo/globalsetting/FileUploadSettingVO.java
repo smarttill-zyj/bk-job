@@ -38,7 +38,7 @@ import lombok.NoArgsConstructor;
 @ApiModel("文件上传参数")
 @Data
 public class FileUploadSettingVO {
-    @ApiModelProperty("数量")
+    @ApiModelProperty("数量d")
     private Long amount;
     @ApiModelProperty("单位")
     private String unit;
